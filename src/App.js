@@ -1,34 +1,52 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
+const Wrapper = styled.div`
   display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
 `;
 
-const BoxOne = styled.div`
-  background-color: teal;
-  width: 100px;
-  height: 100px;
+const rotationAnimation = keyframes`
+  0% {
+    transform:rotate(0deg);
+    border-radius:0px;
+  }
+  50% {
+    border-radius:100px;
+  }
+  100%{
+    transform:rotate(360deg);
+    border-radius:0px;
+  }
 `;
 
-const BoxTwo = styled.div`
+const Emoji = styled.span`
+  font-size: 36px;
+`;
+
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
   background-color: tomato;
-  width: 100px;
-  height: 100px;
-`;
-
-const Text = styled.span`
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotationAnimation} 1s linear infinite;
+  ${Emoji}:hover {
+    font-size: 98px;
+  }
 `;
 
 function App() {
   return (
-    <Father>
-      <BoxOne>
-        <Text>Hello</Text>
-      </BoxOne>
-      <BoxTwo />
-    </Father>
+    <Wrapper>
+      <Box>
+        <Emoji>🤩</Emoji>
+      </Box>
+      <Emoji>🔥</Emoji>
+    </Wrapper>
   );
 }
-
 export default App;
