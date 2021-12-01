@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import React, { useState } from "react";
+import { setConstantValue } from "typescript";
 
 interface ContainerProps {
   bgColor: string;
@@ -24,6 +26,10 @@ const Circle = ({
   borderColor,
   text = "default text",
 }: CircleProp) => {
+  const [counter, setCounter] = useState<number | string>(0);
+  setCounter(2);
+  setCounter("hello");
+  setCounter(true);
   return (
     <Container bgColor={bgColor} borderColor={borderColor ?? bgColor}>
       {text}
