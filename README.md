@@ -12,3 +12,10 @@ Learn and dominate the React ecosystem once and for all.
 - React Spring
 - Typescript
 - Firebase
+
+Crypot tracker
+### Router
+/ -> All coins
+/:id -> /btc -> Coin Detail
+/btc/infromation
+/btc/chart
