@@ -1,6 +1,8 @@
-import { createGlobalStyle } from "styled-components";
-import Router from "./Router";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
+import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -58,7 +60,6 @@ body {
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
   background-color:${(props) => props.theme.bgColor};
-  color:${(props) => props.theme.textColor}
   color:${(props) => props.theme.textColor};
   line-height: 1.2;
 }
@@ -68,11 +69,17 @@ a {
 }
 `;
 function App() {
+  const [theme, setTheme] = useState(false);
+  const toggleTheme = () => {
+    setTheme((current) => !current);
+  };
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={theme ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router toggleTheme={toggleTheme} theme={theme} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

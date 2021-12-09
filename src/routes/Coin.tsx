@@ -9,7 +9,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { ThemeConsumer } from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
@@ -40,7 +40,7 @@ const Header = styled.header`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -58,6 +58,7 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
   margin: 20px 0px;
+  color: ${(props) => props.theme.accentColor};
 `;
 
 const Tabs = styled.div`
@@ -72,7 +73,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -81,6 +82,23 @@ const Tab = styled.span<{ isActive: boolean }>`
     padding: 7px 0px;
     display: block;
   }
+`;
+
+const BackBtn = styled.button`
+  position: fixed;
+  z-index: 999999;
+  top: 4%;
+  left: 3%;
+
+  background-color: ${(props) => props.theme.bgColor};
+  font-size: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 48px;
+  border-radius: 30px;
 `;
 
 interface RouteParams {
@@ -143,7 +161,11 @@ interface PriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {
+  theme: boolean;
+}
+
+function Coin({ theme }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -172,6 +194,9 @@ function Coin() {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
+      <Link to={"/"}>
+        <BackBtn>👈</BackBtn>
+      </Link>{" "}
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -216,7 +241,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
+              <Chart coinId={coinId} theme={theme} />
             </Route>
           </Switch>
         </>

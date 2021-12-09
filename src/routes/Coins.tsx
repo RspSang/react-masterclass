@@ -13,11 +13,27 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  button {
+    all: unset;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background-color: ${(props) => props.theme.bgColor};
+    border: ${(props) => props.theme.borderColor};
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    height: 48px;
+    border-radius: 30px;
+    cursor: pointer;   
 `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
   a {
@@ -56,7 +72,13 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-function Coins() {
+
+interface ICoinsProps {
+  toggleTheme: () => void;
+  theme: boolean;
+}
+
+function Coins({ toggleTheme, theme }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allcoins", fetchCoins);
   return (
     <Container>
@@ -65,7 +87,9 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</button>
       </Header>
+
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
