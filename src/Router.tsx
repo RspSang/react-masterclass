@@ -12,7 +12,7 @@ function Router({ toggleTheme, theme }: IRouterProps) {
     <BrowserRouter>
       <Switch>
         <Route path="/:coinId">
-          <Coin theme={theme} />
+          <Coin toggleTheme={toggleTheme} theme={theme} />
         </Route>
         <Route path="/">
           <Coins toggleTheme={toggleTheme} theme={theme} />

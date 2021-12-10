@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import {
@@ -9,7 +8,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { Link } from "react-router-dom";
-import styled, { ThemeConsumer } from "styled-components";
+import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
@@ -84,13 +83,31 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
+const ThemeBtn = styled.button`
+  all: unset;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  background-color: ${(props) => props.theme.bgColor};
+  border: ${(props) => props.theme.borderColor};
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 48px;
+  border-radius: 30px;
+  cursor: pointer;
+`;
+
 const BackBtn = styled.button`
   position: fixed;
   z-index: 999999;
-  top: 4%;
-  left: 3%;
+  top: 50px;
+  left: 50px;
 
   background-color: ${(props) => props.theme.bgColor};
+  border: ${(props) => props.theme.borderColor};
   font-size: 20px;
 
   display: flex;
@@ -162,10 +179,11 @@ interface PriceData {
 }
 
 interface ICoinProps {
+  toggleTheme: () => void;
   theme: boolean;
 }
 
-function Coin({ theme }: ICoinProps) {
+function Coin({ toggleTheme, theme }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -193,10 +211,12 @@ function Coin({ theme }: ICoinProps) {
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <ThemeBtn onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</ThemeBtn>
+        <Link to={"/"}>
+          <BackBtn>👈</BackBtn>
+        </Link>{" "}
       </Header>
-      <Link to={"/"}>
-        <BackBtn>👈</BackBtn>
-      </Link>{" "}
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -238,7 +258,7 @@ function Coin({ theme }: ICoinProps) {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price coinId={coinId} theme={theme} />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} theme={theme} />

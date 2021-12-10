@@ -14,22 +14,25 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   position: relative;
-  button {
-    all: unset;
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    background-color: ${(props) => props.theme.bgColor};
-    border: ${(props) => props.theme.borderColor};
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 96px;
-    height: 48px;
-    border-radius: 30px;
-    cursor: pointer;   
 `;
+
+const ThemeBtn = styled.button`
+  all: unset;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  background-color: ${(props) => props.theme.bgColor};
+  border: ${(props) => props.theme.borderColor};
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 48px;
+  border-radius: 30px;
+  cursor: pointer;
+`;
+
 const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: ${(props) => props.theme.cardBgColor};
@@ -87,8 +90,8 @@ function Coins({ toggleTheme, theme }: ICoinsProps) {
       </Helmet>
       <Header>
         <Title>코인</Title>
-        <button onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</button>
       </Header>
+      <ThemeBtn onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</ThemeBtn>
 
       {isLoading ? (
         <Loader>Loading...</Loader>
