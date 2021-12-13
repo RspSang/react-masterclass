@@ -33,7 +33,6 @@ const PriceCard = styled.span`
 
 interface PriceProps {
   coinId: string;
-  theme: boolean;
 }
 
 interface PriceData {
@@ -70,7 +69,7 @@ interface PriceData {
   };
 }
 
-function Price({ coinId, theme }: PriceProps) {
+function Price({ coinId }: PriceProps) {
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
     () => fetchCoinTickers(coinId),

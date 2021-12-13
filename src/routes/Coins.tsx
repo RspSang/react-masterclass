@@ -1,6 +1,8 @@
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 const Container = styled.div`
@@ -76,12 +78,12 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {
-  toggleTheme: () => void;
-  theme: boolean;
-}
+interface ICoinsProps {}
 
-function Coins({ toggleTheme, theme }: ICoinsProps) {
+function Coins({}: ICoinsProps) {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const isDark = useRecoilValue(isDarkAtom);
+  const toogleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allcoins", fetchCoins);
   return (
     <Container>
@@ -91,8 +93,7 @@ function Coins({ toggleTheme, theme }: ICoinsProps) {
       <Header>
         <Title>코인</Title>
       </Header>
-      <ThemeBtn onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</ThemeBtn>
-
+      <ThemeBtn onClick={toogleDarkAtom}>{isDark ? "🌚" : "🌞"}</ThemeBtn>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (

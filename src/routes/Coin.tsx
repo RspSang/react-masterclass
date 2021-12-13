@@ -8,6 +8,8 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
@@ -178,12 +180,12 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  toggleTheme: () => void;
-  theme: boolean;
-}
+interface ICoinProps {}
 
-function Coin({ toggleTheme, theme }: ICoinProps) {
+function Coin({}: ICoinProps) {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const isDark = useRecoilValue(isDarkAtom);
+  const toogleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -211,7 +213,7 @@ function Coin({ toggleTheme, theme }: ICoinProps) {
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
-        <ThemeBtn onClick={toggleTheme}>{theme ? "🌚" : "🌞"}</ThemeBtn>
+        <ThemeBtn onClick={toogleDarkAtom}>{isDark ? "🌚" : "🌞"}</ThemeBtn>
         <Link to={"/"}>
           <BackBtn>👈</BackBtn>
         </Link>{" "}
@@ -258,10 +260,10 @@ function Coin({ toggleTheme, theme }: ICoinProps) {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price coinId={coinId} theme={theme} />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} theme={theme} />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>
