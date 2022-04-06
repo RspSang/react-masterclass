@@ -188,8 +188,8 @@ function Coin({}: ICoinProps) {
   const toogleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const priceMatch = useRouteMatch("react-masterclass/:coinId/price");
-  const chartMatch = useRouteMatch("react-masterclass/:coinId/chart");
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useRouteMatch("/:coinId/chart");
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId)
@@ -251,10 +251,10 @@ function Coin({}: ICoinProps) {
 
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/react-masterclass/chart`}>Chart</Link>
+              <Link to={`/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/react-masterclass/price`}>Price</Link>
+              <Link to={`/price`}>Price</Link>
             </Tab>
           </Tabs>
 
