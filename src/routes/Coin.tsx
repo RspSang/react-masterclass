@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import {
+  Link,
   Switch,
   Route,
   useLocation,
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
 import styled from "styled-components";
@@ -188,8 +188,8 @@ function Coin({}: ICoinProps) {
   const toogleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const priceMatch = useRouteMatch("/:coinId/price");
-  const chartMatch = useRouteMatch("/:coinId/chart");
+  const priceMatch = useRouteMatch("react-masterclass/:coinId/price");
+  const chartMatch = useRouteMatch("react-masterclass/:coinId/chart");
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId)
@@ -214,7 +214,7 @@ function Coin({}: ICoinProps) {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
         <ThemeBtn onClick={toogleDarkAtom}>{isDark ? "🌚" : "🌞"}</ThemeBtn>
-        <Link to={`${process.env.PUBLIC_URL}/`}>
+        <Link to={`/react-masterclass/`}>
           <BackBtn>👈</BackBtn>
         </Link>{" "}
       </Header>
@@ -251,18 +251,18 @@ function Coin({}: ICoinProps) {
 
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
+              <Link to={`/react-masterclass/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
+              <Link to={`/react-masterclass/price`}>Price</Link>
             </Tab>
           </Tabs>
 
           <Switch>
-            <Route path={`${process.env.PUBLIC_URL}/:coinId/price`}>
+            <Route path={`/:coinId/price`}>
               <Price coinId={coinId} />
             </Route>
-            <Route path={`${process.env.PUBLIC_URL}/:coinId/chart`}>
+            <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
             </Route>
           </Switch>
