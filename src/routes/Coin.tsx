@@ -214,7 +214,7 @@ function Coin({}: ICoinProps) {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
         <ThemeBtn onClick={toogleDarkAtom}>{isDark ? "🌚" : "🌞"}</ThemeBtn>
-        <Link to={"/"}>
+        <Link to={`${process.env.PUBLIC_URL}/`}>
           <BackBtn>👈</BackBtn>
         </Link>{" "}
       </Header>
@@ -259,10 +259,10 @@ function Coin({}: ICoinProps) {
           </Tabs>
 
           <Switch>
-            <Route path={`/:coinId/price`}>
+            <Route path={`${process.env.PUBLIC_URL}/:coinId/price`}>
               <Price coinId={coinId} />
             </Route>
-            <Route path={`/:coinId/chart`}>
+            <Route path={`${process.env.PUBLIC_URL}/:coinId/chart`}>
               <Chart coinId={coinId} />
             </Route>
           </Switch>
