@@ -214,7 +214,7 @@ function Coin({}: ICoinProps) {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
         <ThemeBtn onClick={toogleDarkAtom}>{isDark ? "🌚" : "🌞"}</ThemeBtn>
-        <Link to={`/react-masterclass/`}>
+        <Link to={`/`}>
           <BackBtn>👈</BackBtn>
         </Link>{" "}
       </Header>
